@@ -11,25 +11,28 @@ object Day1 {
     }
 
 
-  def frequencyChange(start: Int, input: String): Int = {
+  def calculateFrequencyChange(input: String): Int = {
     val splitInput = input.trim.split('\n')
-    splitInput.foldLeft(start)(accFunction)
+    splitInput.foldLeft(0)(accFunction)
   }
 
-  def frequencyChangeHist(start: Int, input: String): Int = {
+  def findRecurringFrequency(input: String): Int = {
     val splitInput = input.trim.split('\n')
-    var idx:Int = 0
-    var startFreq = 0
-    var seenFreqs: Set[Int] = Set()
-    while (!(seenFreqs.contains(startFreq))) {
-      seenFreqs = seenFreqs + startFreq
-      startFreq = accFunction(startFreq, splitInput(idx))
-      idx += 1
-      if (idx == splitInput.length) {
-        idx = 0
+    val length = splitInput.length
+
+    def helper(idx: Int, currentFreq: Int, seenFreqs: Set[Int]): Int = {
+      if (seenFreqs.contains(currentFreq)) {
+        currentFreq
+      } else {
+        val nextFreq = accFunction(currentFreq, splitInput(idx))
+        if (idx + 1 == length)
+          helper(0, nextFreq, seenFreqs + currentFreq)
+        else
+          helper(idx + 1, nextFreq, seenFreqs + currentFreq)
       }
     }
-    startFreq
+
+    helper(0, 0, Set())
   }
 
   def getInput = {
