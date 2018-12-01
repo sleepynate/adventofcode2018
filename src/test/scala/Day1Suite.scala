@@ -4,14 +4,15 @@ import org.scalatest.FunSuite
 
 class Day1Suite extends FunSuite{
 
+  val testString =
+    """
+      |+1
+      |-2
+      |+3
+      |+1
+    """.stripMargin
+
   test("Calculates Frequency Changes from example string") {
-    val testString =
-      """
-        |+1
-        |-2
-        |+3
-        |+1
-      """.stripMargin
     assert(Day1.frequencyChange(0, testString) === 3)
   }
 
@@ -33,7 +34,8 @@ class Day1Suite extends FunSuite{
     assert(Day1.frequencyChange(0, s3) === -6)
   }
 
-  test("Can get resulting frequency") {
-    assert(Day1.frequencyChange(0, Day1.getInput) === 0, "Should be solution")
+  test("Still finds correct value for historical frequencies") {
+    assert(Day1.frequencyChangeHist(0, testString) == 2)
   }
+
 }
