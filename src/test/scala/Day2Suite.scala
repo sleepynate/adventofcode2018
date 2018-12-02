@@ -27,15 +27,23 @@ class Day2Suite extends FunSuite {
 //  test("Can solve puzzle part 1") {
 //    assert(Day2.getChecksum(Day2.getInput) === 0)
 //  }
-}
 
-/*
-abcdef contains no letters that appear exactly two or three times.
-bababc contains two a and three b, so it counts for both.
-abbcde contains two b, but no letter appears exactly three times.
-abcccd contains three c, but no letter appears exactly two times.
-aabcdd contains two a and two d, but it only counts once.
-abcdee contains two e.
-ababab contains three a and three b, but it only counts once.
-*/
+  test("can create index list from string") {
+    assert(Day2.word2IndexList("abcde") == List(('e',4), ('d',3), ('c',2), ('b',1), ('a',0)))
+  }
+
+  test("Can find most similar box ids") {
+    val testList = List( "abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz")
+    assert(Day2.findCommonBoxIDLetters(testList) == "fgij")
+  }
+
+  test("Can find most similar box ids functionally") {
+    val testList = List( "abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz")
+    assert(Day2.findCommonBoxIDLettersFun(testList) == "fgij")
+  }
+
+//  test("Can solve puzzle part 2") {
+//    assert(Day2.findCommonBoxIDLetters(Day2.getInput) == "")
+//  }
+}
 
