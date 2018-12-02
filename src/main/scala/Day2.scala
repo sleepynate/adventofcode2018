@@ -44,22 +44,22 @@ object Day2 {
   def findCommonBoxIDLettersFun(boxIDs: List[String]): String = {
     val boxSets = boxIDs.map(bx => word2IndexList(bx).toSet)
 
-    def helper(head: Set[(Char, Int)], tail: List[Set[(Char, Int)]]): Set[(Char, Int)] = {
+    def helper(head: Set[(Char, Int)], tail: List[Set[(Char, Int)]], largest: Set[(Char, Int)]): Set[(Char, Int)] = {
       if (tail.length == 1) {
-        head.intersect(tail.head)
+        val last = head.intersect(tail.head)
+        if (last.size > largest.size) last
+        else largest
       } else {
-        val biggestOfRestOfList = helper(tail.head, tail.tail)
         val curr = tail.foldLeft(Set.empty[(Char, Int)]) { (acc, s) =>
           val i = s.intersect(head)
           if (i.size > acc.size) i
           else acc
         }
-        if (curr.size > biggestOfRestOfList.size) curr
-        else biggestOfRestOfList
+        helper(tail.head, tail.tail, if (curr.size > largest.size) curr else largest)
       }
     }
 
-    indexSetToString(helper(boxSets.head, boxSets.tail))
+    indexSetToString(helper(boxSets.head, boxSets.tail, Set.empty[(Char, Int)]))
   }
 
   def getChecksum(boxIDs: Iterable[String]) = {
