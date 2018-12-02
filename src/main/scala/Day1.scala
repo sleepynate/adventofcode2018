@@ -1,6 +1,6 @@
 package adventofcode
 
-import scala.io.{BufferedSource, Source}
+import scala.io.Source
 
 object Day1 {
 
