@@ -25,7 +25,7 @@ object Day2 {
     while (i < boxSets.length) {
       val left = boxSets(i)
       while (j < boxSets.length) {
-        var right = boxSets(j)
+        val right = boxSets(j)
         val intersect = left.intersect(right)
         val size = intersect.size
         if (size > biggestSize) {
