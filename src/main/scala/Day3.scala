@@ -29,26 +29,54 @@ object Day3 {
       }
     }
 
+    def trackerToSquareInches(a: Array[Int], width: Int) = {
+      var s = Set.empty[(Int, Int)]
+      var x = 0
+      var y = 0
+      while (width * y < a.length) {
+        while (x < width) {
+          if (a(y * width + x) == 1) s = s+((x, y))
+          x += 1
+        }
+        x = 0
+        y += 1
+      }
+      s
+    }
+
     def getOverlap(rects: Seq[Rectangle]):(Set[Int],Set[SquareInch]) = {
+
+      val (biggestX, biggestY) = rects.foldLeft((0,0)) {
+        (acc, r) =>
+          val newX = r.x + r.width
+          val newY = r.y + r.height
+          val x = if (newX > acc._1) newX else acc._1
+          val y = if (newY > acc._2) newY else acc._2
+          (x,y)
+      }
+      val tracker = new Array[Int](biggestX * biggestY)
+      def addOverlap(x: Int, y: Int) = tracker(y * biggestX + x) = 1
+
       def helper(rects: Seq[Rectangle],
-                 acc: Set[SquareInch],
-                 overlapping: Set[Int]):(Set[Int], Set[(Int, Int)]) = {
-        if (rects.size == 1) (overlapping, acc)
+                 overlapping: Set[Int]):Set[Int] = {
+        if (rects.size == 1) overlapping
         else {
           val tailSets = rects.tail.map { r => (r.id, rects.head overlap r) }
-          val (overlappingIDs, overlappingInches) =
-            tailSets.foldLeft((Set.empty[Int], Set.empty[SquareInch])) {
-            (a: (Set[Int], Set[(Int, Int)]), overlap: (Int, Set[(Int, Int)])) => {
+          tailSets.foreach {
+            case (_, set) => set.foreach { case (x,y) => addOverlap(x,y) }
+          }
+          val overlappingIDs = tailSets.foldLeft(Set.empty[Int]) {
+            (a: Set[Int], overlap: (Int, Set[(Int, Int)])) => {
               if (overlap._2.isEmpty)
-                (a._1, a._2)
+                a
               else
-                (a._1 + overlap._1 + rects.head.id, a._2 union overlap._2)
+                a + overlap._1 + rects.head.id
             }
           }
-          helper(rects.tail, overlappingInches union acc, overlappingIDs union overlapping)
+          helper(rects.tail, overlappingIDs union overlapping)
         }
       }
-      helper(rects, Set(), Set())
+      (helper(rects, Set()), trackerToSquareInches(tracker, biggestX))
     }
   }
 

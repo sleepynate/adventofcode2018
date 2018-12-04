@@ -1,7 +1,11 @@
 package adventofcode
 
+import org.junit.runner.RunWith
 import org.scalatest.FunSuite
+import org.scalatest.junit.JUnitRunner
 
+
+@RunWith(classOf[JUnitRunner])
 class Day3Suite extends FunSuite {
   import Day3._
 
@@ -77,6 +81,6 @@ class Day3Suite extends FunSuite {
     assert(squareInches.size == 112378, "Day 3 part 1 answer")
 
     val nonOverlap = rectangles.filterNot(r => overlapIDs.contains(r.id))
-    assert(nonOverlap.head.id == -1, "nonoverlap rectangle ID should be 3")
+    assert(nonOverlap.head.id == 603, "nonoverlap rectangle ID should be 3")
   }
 }
