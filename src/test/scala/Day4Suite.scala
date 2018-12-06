@@ -46,18 +46,46 @@ class Day4Suite extends FunSuite {
     val (sleepiestGuard, timesSlept) = sleepyTimes.maxBy { case (g, mins) => mins.length }
     val bestMinute = timesSlept.groupBy(identity)
                                .mapValues(_.size)
-                               .maxBy{ case (min, amt) => amt }._1
+                               .maxBy{ case (_, amt) => amt }._1
       //.maxBy(_._2)._1
     bestMinute shouldBe 24
   }
 
   test("Can get part 1 answer") {
     val sleepyTimes = guardsAsleepMinutes(sortedLogEntries(getInput))
-    val (sleepiestGuard, timesSlept) = sleepyTimes.maxBy { case (g, mins) => mins.length }
+    val (sleepiestGuard, timesSlept) = sleepyTimes.maxBy { case (_, mins) => mins.length }
     val bestMinute = timesSlept.groupBy(identity)
       .mapValues(_.size)
-      .maxBy{ case (min, amt) => amt }._1
+      .maxBy{ case (_, amt) => amt }._1
     sleepiestGuard shouldBe 2663
     bestMinute shouldBe 45
+  }
+
+  test("Guard 99 slept minute 45 the most") {
+    val sleepyTimes = guardsAsleepMinutes(sortedLogEntries(testLogData.lines.toList))
+    //                         minute slept----v    v----- number of occurrences
+    val guardToMostCommonMinute: Map[GuardID, (Int, Int)] = sleepyTimes.map {
+      case (guardId, minutes) => (guardId, minutes.groupBy(identity).mapValues(_.size).maxBy(_._2))
+    }
+
+    val sleepiestGuard = guardToMostCommonMinute.maxBy {
+      case (guardId, (minutes, occurrence)) => occurrence
+    }
+    sleepiestGuard._1 shouldBe 99
+    sleepiestGuard._2._1 shouldBe 45
+  }
+
+  test("Solve Day 4 problem 2") {
+    val sleepyTimes = guardsAsleepMinutes(sortedLogEntries(getInput))
+    //                         minute slept----v    v----- number of occurrences
+    val guardToMostCommonMinute: Map[GuardID, (Int, Int)] = sleepyTimes.map {
+      case (guardId, minutes) => (guardId, minutes.groupBy(identity).mapValues(_.size).maxBy(_._2))
+    }
+
+    val sleepiestGuard = guardToMostCommonMinute.maxBy {
+      case (guardId, (minutes, occurrence)) => occurrence
+    }
+    sleepiestGuard._1 shouldBe 509
+    sleepiestGuard._2._1 shouldBe 25
   }
 }
