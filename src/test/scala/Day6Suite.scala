@@ -35,13 +35,24 @@ class Day6Suite extends FunSuite{
   }
 
   test("Can find closest coords for all points in plane") {
-    val bigMap = findAllPointsInPlane(testStrings.map(Coordinate.fromString))
+    val bigMap = areasAroundCoordinates(testStrings.map(Coordinate.fromString))
     largestLocalArea(bigMap)._1 shouldBe Coordinate(5,5)
     largestLocalArea(bigMap)._2 shouldBe 17
   }
+
   test("Can solve part 1") {
     // do we need to eliminate outer boundary points? apparently not.
-    val bigMap = findAllPointsInPlane(getInput.map(Coordinate.fromString).toSet)
+    val bigMap = areasAroundCoordinates(getInput.map(Coordinate.fromString).toSet)
     largestLocalArea(bigMap)._2 shouldBe 4186
+  }
+
+  test("can find safe region") {
+    val coords = findSafeRegion(testStrings.map(Coordinate.fromString), 32)
+    coords.size shouldBe 16
+  }
+
+  test("Can solve part 2") {
+    val coords = findSafeRegion(getInput.map(Coordinate.fromString).toSet, 10000)
+    coords.size shouldBe 16
   }
 }

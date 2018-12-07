@@ -51,15 +51,26 @@ object Day6 {
       Some(shortestDistance.head)
   }
 
-  def findAllPointsInPlane(coords: Set[Coordinate]) = {
+  def areasAroundCoordinates(coords: Set[Coordinate]) = {
     val (minx, maxx, miny, maxy) = findCartesianMinMax(coords)
     val boundary = findBoundary(coords)
     val allCoords = for {
       x <- minx to maxx
       y <- miny to maxy
     } yield Coordinate(x, y)
-    val closestCoords = allCoords.map(c => findClosestCoordinate(c, boundary)).filterNot(_ == None).flatten
+    val closestCoords = allCoords.map(c => findClosestCoordinate(c, boundary)).filterNot(_.isEmpty).flatten
     closestCoords.groupBy(identity).mapValues(_.length)
+  }
+
+  def findSafeRegion(coords: Set[Coordinate], safeDistance: Int):Set[Coordinate] = {
+    val (minx, maxx, miny, maxy) = findCartesianMinMax(coords)
+    val boundary = findBoundary(coords)
+    val allCoords = for {
+      x <- minx to maxx
+      y <- miny to maxy
+    } yield Coordinate(x, y)
+    val tuples: Seq[(Coordinate, Int)] = allCoords.map { c => c -> coords.foldLeft(0) { (acc, coordinate) => acc + c.distance(coordinate) } }
+    tuples.filter(_._2 < safeDistance).map(_._1).toSet
   }
 
   def largestLocalArea(neighbors: Map[Coordinate, Int]) = {
