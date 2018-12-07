@@ -29,26 +29,10 @@ object Day3 {
       }
     }
 
-    def getOverlap(rects: Seq[Rectangle]):(Set[Int],Set[SquareInch]) = {
-      def helper(rects: Seq[Rectangle],
-                 acc: Set[SquareInch],
-                 overlapping: Set[Int]):(Set[Int], Set[(Int, Int)]) = {
-        if (rects.size == 1) (overlapping, acc)
-        else {
-          val tailSets = rects.tail.map { r => (r.id, rects.head overlap r) }
-          val (overlappingIDs, overlappingInches) =
-            tailSets.foldLeft((Set.empty[Int], Set.empty[SquareInch])) {
-            (a: (Set[Int], Set[(Int, Int)]), overlap: (Int, Set[(Int, Int)])) => {
-              if (overlap._2.isEmpty)
-                (a._1, a._2)
-              else
-                (a._1 + overlap._1 + rects.head.id, a._2 union overlap._2)
-            }
-          }
-          helper(rects.tail, overlappingInches union acc, overlappingIDs union overlapping)
-        }
-      }
-      helper(rects, Set(), Set())
+    def getOverlap(rects: Seq[Rectangle]):Map[SquareInch, Int] = {
+      val squareInches: Seq[SquareInch] = rects.flatMap(_.squares.toList)
+      val squareInchMembership = squareInches.groupBy(identity).mapValues(_.length)
+      squareInchMembership.filter(_._2 > 1)
     }
   }
 

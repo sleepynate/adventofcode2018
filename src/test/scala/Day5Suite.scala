@@ -48,6 +48,6 @@ class Day5Suite extends FunSuite{
 
     val (removed, length) = Day5.findShortestPolymer(input)
 
-    assert(length == 0, s"length was found by removing ${removed}")
+    assert(length == 6310, s"length was found by removing ${removed}")
   }
 }
