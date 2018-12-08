@@ -40,7 +40,7 @@ class Day6Suite extends FunSuite{
     largestLocalArea(bigMap)._2 shouldBe 17
   }
 
-  test("Can solve part 1") {
+  ignore("Can solve part 1") {
     // do we need to eliminate outer boundary points? apparently not.
     val bigMap = areasAroundCoordinates(getInput.map(Coordinate.fromString).toSet)
     largestLocalArea(bigMap)._2 shouldBe 4186
@@ -51,8 +51,8 @@ class Day6Suite extends FunSuite{
     coords.size shouldBe 16
   }
 
-  test("Can solve part 2") {
+  ignore("Can solve part 2") {
     val coords = findSafeRegion(getInput.map(Coordinate.fromString).toSet, 10000)
-    coords.size shouldBe 16
+    coords.size shouldBe 45509
   }
 }

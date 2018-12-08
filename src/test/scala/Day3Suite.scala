@@ -53,7 +53,7 @@ class Day3Suite extends FunSuite {
 //    assert(nonOverlap.head.id == 3, "nonoverlap rectangle ID should be 3")
   }
 
-  test("Can get day 3 answer") {
+  ignore("Can get day 3 answer") {
     val rectangles = Day3.getInput.map(Rectangle.fromString)
     val squareInches = Rectangle.getOverlap(rectangles)
     assert(squareInches.size == 112378, "Day 3 part 1 answer")

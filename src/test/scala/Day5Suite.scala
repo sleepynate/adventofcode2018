@@ -24,7 +24,7 @@ class Day5Suite extends FunSuite{
     Day5.reactString("dabAcCaCBAcCcaDA") shouldBe "dabCBAcaDA"
   }
 
-  test("Can solve Day 5 part 1") {
+  ignore("Can solve Day 5 part 1") {
     val input = Day5.getInput.stripLineEnd
 
     assert(input.forall(_.isLetter))
@@ -41,7 +41,7 @@ class Day5Suite extends FunSuite{
     assert(length == 4, s"length was found by removing ${removed}")
 
   }
-  test("Can solve Day 5 part 2") {
+  ignore("Can solve Day 5 part 2") {
     val input = Day5.getInput.stripLineEnd
 
     assert(input.forall(_.isLetter))

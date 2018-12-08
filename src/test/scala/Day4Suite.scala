@@ -51,7 +51,7 @@ class Day4Suite extends FunSuite {
     bestMinute shouldBe 24
   }
 
-  test("Can get part 1 answer") {
+  ignore("Can get part 1 answer") {
     val sleepyTimes = guardsAsleepMinutes(sortedLogEntries(getInput))
     val (sleepiestGuard, timesSlept) = sleepyTimes.maxBy { case (_, mins) => mins.length }
     val bestMinute = timesSlept.groupBy(identity)
@@ -75,7 +75,7 @@ class Day4Suite extends FunSuite {
     sleepiestGuard._2._1 shouldBe 45
   }
 
-  test("Solve Day 4 problem 2") {
+  ignore("Solve Day 4 problem 2") {
     val sleepyTimes = guardsAsleepMinutes(sortedLogEntries(getInput))
     //                         minute slept----v    v----- number of occurrences
     val guardToMostCommonMinute: Map[GuardID, (Int, Int)] = sleepyTimes.map {
